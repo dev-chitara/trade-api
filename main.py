@@ -1,7 +1,6 @@
 import uvicorn
 from fastapi import FastAPI
-
-
+from routers import trades
 
 app = FastAPI(
     title="Trade API",
@@ -12,6 +11,7 @@ app = FastAPI(
     }
 )
 
+app.include_router(trades.router, prefix="/api")
 
 if __name__ == "__main__":
     uvicorn.run(
