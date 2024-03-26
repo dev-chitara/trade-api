@@ -32,6 +32,7 @@ async def create_trade(trade_data: CreateTradeSchema, db: Session=Depends(get_db
     db.refresh(trade_object)
     return trade_object
 
+
 @router.get("/trades/{trade_id}", status_code=status.HTTP_200_OK, response_model=GetTradeSchema)
 async def get_trade(trade_id: UUID, db: Session=Depends(get_db)):
     trade_object = db.query(Trade).filter(Trade.id == trade_id).first()
