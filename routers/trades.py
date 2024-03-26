@@ -13,9 +13,7 @@ router = APIRouter(tags=["Trade API"])
 
 
 @router.get("/trades", status_code=status.HTTP_200_OK, response_model=List[GetTradeSchema])
-async def fetch_trades(request: Request, db: Session=Depends(get_db)):
-    trade_type = (request.query_params.get(param) for param in ['type'])
-
+async def fetch_trades(trade_type: str = None, db: Session=Depends(get_db)):
     trade_objects = db.query(Trade)
 
     if trade_type:
