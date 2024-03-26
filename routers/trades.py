@@ -1,7 +1,7 @@
 from uuid import UUID
 from typing import List
 
-from fastapi import HTTPException, status, APIRouter, Depends, Request
+from fastapi import HTTPException, status, APIRouter, Depends
 from sqlalchemy.orm import Session
 
 from models.trades import Trade
