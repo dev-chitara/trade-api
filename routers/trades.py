@@ -45,6 +45,7 @@ async def get_trade(trade_id: UUID, db: Session=Depends(get_db)):
     
     return trade_object
 
+
 @router.patch("/trades/{trade_id}", status_code=status.HTTP_200_OK, response_model=GetTradeSchema)
 async def update_trade(trade_id: UUID, trade_data: UpdateTradeSchema, db: Session=Depends(get_db)):
     update_trade_data = trade_data.model_dump(exclude_none=True)
