@@ -1,7 +1,7 @@
 from uuid import UUID
 from typing import List
 
-from fastapi import HTTPException, status, APIRouter, Depends
+from fastapi import HTTPException, status, APIRouter, Depends, Request
 from sqlalchemy.orm import Session
 
 from models.trades import Trade
@@ -13,9 +13,15 @@ router = APIRouter(tags=["Trade API"])
 
 
 @router.get("/trades", status_code=status.HTTP_200_OK, response_model=List[GetTradeSchema])
-async def fetch_trades(db: Session=Depends(get_db)):
-    trade_objects = db.query(Trade).all()
-    return trade_objects
+async def fetch_trades(request: Request, db: Session=Depends(get_db)):
+    trade_type = (request.query_params.get(param) for param in ['type'])
+
+    trade_objects = db.query(Trade)
+
+    if trade_type:
+        trade_objects = trade_objects.filter(Trade.type == trade_type)
+
+    return trade_objects.all()
 
 
 @router.post("/trades", status_code=status.HTTP_201_CREATED, response_model=GetTradeSchema)
